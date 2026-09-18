@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Painel bilingue de apoio à decisão para oportunidades municipais em Cabo Verde.">
+  <title>Cabo Verde Municipal Opportunity Explorer</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="extended.css">
+  <link rel="stylesheet" href="fixes.css">
+</head>
+<body>
+  <a class="skip" href="#main">Saltar para o conteúdo</a>
+  <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">CV</span>
+      <div><strong>Opportunity<br>Explorer</strong><small>Cabo Verde</small></div>
+    </div>
+    <nav id="nav">
+      <button class="nav-item active" data-view="overview"><span>◫</span><b data-i18n="navOverview">Visão geral</b></button>
+      <button class="nav-item" data-view="ranking"><span>≡</span><b data-i18n="navRanking">Ranking municipal</b></button>
+      <button class="nav-item" data-view="compare"><span>◒</span><b data-i18n="navCompare">Comparar</b></button>
+      <button class="nav-item" data-view="simulator"><span>⌁</span><b data-i18n="navSimulator">Simulador</b></button>
+      <button class="nav-item" data-view="methodology"><span>i</span><b data-i18n="navMethodology">Metodologia</b></button>
+      <a class="nav-link" href="deliverables.html"><span>↗</span><b>Project files</b></a>
+    </nav>
+    <div class="sidebar-foot">
+      <span class="status-dot"></span><span data-i18n="validRecords">22 registos válidos</span>
+      <small data-i18n="yearUnknown">Ano de referência não identificado</small>
+    </div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+      <div>
+        <p class="eyebrow" data-i18n="eyebrow">Inteligência territorial · Cabo Verde</p>
+        <h1 id="pageTitle" data-i18n="overviewTitle">Onde investir primeiro?</h1>
+      </div>
+      <div class="top-actions">
+        <span class="quality"><i></i><span data-i18n="dataChecked">Dados verificados</span></span>
+        <div class="lang-switch" aria-label="Idioma">
+          <button data-lang="pt" class="active">PT</button><button data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="overview" class="view active" aria-labelledby="pageTitle">
+        <div class="decision-strip">
+          <div>
+            <span data-i18n="decisionLabel">Sinal de decisão</span>
+            <strong id="decisionHeadline">Praia lidera em escala; São Vicente equilibra alcance e densidade.</strong>
+          </div>
+          <button class="primary" data-jump="ranking"><span data-i18n="openRanking">Abrir ranking</span> →</button>
+        </div>
+
+        <div class="kpi-grid" id="kpis" aria-label="Indicadores principais"></div>
+
+        <div class="overview-grid">
+          <article class="panel opportunity-panel">
+            <div class="panel-head">
+              <div><p class="eyebrow" data-i18n="priorityView">Vista prioritária</p><h2 data-i18n="topOpportunities">Principais oportunidades</h2></div>
+              <select id="metricSelect" aria-label="Métrica do gráfico">
+                <option value="score">Índice de oportunidade</option>
+                <option value="internet">Penetração de internet</option>
+                <option value="gap">Potencial de novos utilizadores</option>
+              </select>
+            </div>
+            <div id="barChart" class="bar-chart"></div>
+          </article>
+
+          <aside class="panel insight-panel">
+            <div class="panel-head"><div><p class="eyebrow" data-i18n="executiveReading">Leitura executiva</p><h2 data-i18n="signals">Sinais para agir</h2></div><span class="spark">✦</span></div>
+            <ol id="insights"></ol>
+            <div class="caution"><strong data-i18n="beforeInvesting">Antes de investir</strong><span data-i18n="cautionText">Validar cobertura, concorrência, rendimento e custo de infraestrutura no terreno.</span></div>
+          </aside>
+        </div>
+        <article class="panel archipelago-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow" data-i18n="territorialView">Vista territorial</p><h2 data-i18n="archipelagoMatrix">Matriz de oportunidades por ilha</h2></div>
+            <span class="method-tag" data-i18n="mapAlternative">Alternativa ao mapa · sem limites geográficos verificados</span>
+          </div>
+          <p class="panel-note" data-i18n="mapNote">Cada círculo representa um município: tamanho por população e cor pelo índice de oportunidade.</p>
+          <div id="islandMatrix" class="island-matrix"></div>
+        </article>
+      </section>
+
+      <section id="ranking" class="view">
+        <div class="toolbar">
+          <label><span data-i18n="searchMunicipality">Pesquisar município</span><input id="search" type="search" placeholder="Nome ou código"></label>
+          <label><span data-i18n="focusMetric">Ordenar por</span><select id="sortMetric"><option value="score">Índice de oportunidade</option><option value="population">População</option><option value="internet">Penetração de internet</option><option value="gap">Potencial de novos utilizadores</option><option value="density">Densidade</option></select></label>
+          <button id="exportBtn" class="secondary" data-i18n="exportCsv">Exportar CSV</button>
+        </div>
+        <div class="table-wrap panel"><table><thead id="rankHead"></thead><tbody id="rankBody"></tbody></table></div>
+      </section>
+
+      <section id="compare" class="view">
+        <div class="section-intro"><p data-i18n="compareIntro">Escolha até três municípios para avaliar escala, conectividade e condições de mercado lado a lado.</p></div>
+        <div class="compare-selectors panel" id="compareSelectors"></div>
+        <div id="compareResults" class="compare-results"></div>
+      </section>
+
+      <section id="simulator" class="view">
+        <div class="sim-grid">
+          <aside class="panel sim-controls">
+            <p class="eyebrow" data-i18n="strategyInputs">Prioridades estratégicas</p>
+            <h2 data-i18n="shapeDecision">Modele a decisão</h2>
+            <label><span data-i18n="investmentType">Tipo de investimento</span><select id="investmentType"><option value="infrastructure">Infraestrutura móvel/internet</option><option value="service">Ponto comercial</option><option value="product">Produto digital</option><option value="inclusion">Programa de inclusão digital</option></select></label>
+            <label><span data-i18n="priority">Prioridade</span><select id="priorityPreset"><option value="balanced">Equilíbrio</option><option value="scale">Escala de mercado</option><option value="gap">Lacuna digital</option><option value="density">Densidade</option><option value="impact">Impacto educacional</option></select></label>
+            <div class="weights-head"><span data-i18n="scoreWeights">Pesos do índice</span><strong id="weightTotal">100%</strong></div>
+            <div id="weightControls" class="weight-controls"></div>
+            <label><span data-i18n="shortlistSize">Número de recomendações</span><input id="topN" type="range" min="3" max="6" value="4"><output id="topNValue">4</output></label>
+            <button class="secondary full" id="resetWeights" data-i18n="resetWeights">Repor pesos</button>
+          </aside>
+          <div>
+            <div class="sim-summary panel"><div><p class="eyebrow" data-i18n="recommendedShortlist">Shortlist recomendada</p><h2 id="simHeadline"></h2></div><button class="primary" id="exportShortlist" data-i18n="exportShortlist">Exportar shortlist</button></div>
+            <div id="simResults" class="recommendation-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="methodology" class="view">
+        <div class="method-grid">
+          <article class="panel method-main">
+            <p class="eyebrow" data-i18n="methodEyebrow">Transparência da decisão</p>
+            <h2 data-i18n="howScoreWorks">Como funciona o índice</h2>
+            <p data-i18n="methodIntro">O índice ordena prioridades; não prevê retorno financeiro. Cada componente é normalizado entre os 22 municípios e combinado com os pesos selecionados.</p>
+            <div id="formulaCards" class="formula-grid"></div>
+            <h3 data-i18n="derivedIndicators">Indicadores calculados</h3>
+            <div class="formula-list" id="formulaList"></div>
+          </article>
+          <aside class="panel source-panel">
+            <p class="eyebrow" data-i18n="sources">Fontes</p>
+            <h2 data-i18n="traceableSources">Fontes rastreáveis</h2>
+            <a href="https://ine.cv/" target="_blank" rel="noreferrer"><strong>INE Cabo Verde</strong><span data-i18n="ineDesc">Definições municipais, censos e estatísticas oficiais.</span></a>
+            <a href="https://www.arme.cv/index.php?Itemid=885&catid=306&id=0&option=com_jdownloads&view=category" target="_blank" rel="noreferrer"><strong>ARME</strong><span data-i18n="armeDesc">Relatórios de comunicações eletrónicas e qualidade de serviço.</span></a>
+            <a href="https://data.worldbank.org/country/cabo-verde" target="_blank" rel="noreferrer"><strong>World Bank Data</strong><span data-i18n="wbDesc">Indicadores nacionais e referências internacionais.</span></a>
+            <div class="data-note"><strong data-i18n="localDataset">Base local</strong><span>clust_municipio_1.csv</span><small data-i18n="cleanupNote">22 registos válidos preservados; 1 048 517 linhas vazias removidas na camada de apresentação.</small></div>
+          </aside>
+        </div>
+        <article class="panel dictionary-panel"><div class="panel-head"><div><p class="eyebrow" data-i18n="dictionary">Dicionário</p><h2 data-i18n="dataDictionary">Dicionário dos dados</h2></div></div><div class="table-wrap"><table><thead><tr><th data-i18n="theme">Eixo</th><th data-i18n="indicator">Indicador</th><th data-i18n="column">Coluna</th><th data-i18n="unit">Unidade</th></tr></thead><tbody id="dictionaryBody"></tbody></table></div></article>
+      </section>
+    </main>
+  </div>
+  <dialog id="profileDialog">
+    <button class="dialog-close" id="closeProfile" aria-label="Fechar">×</button>
+    <div id="profileContent"></div>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
